@@ -14,28 +14,27 @@ try:
     METHOD = sys.argv[1]
     LOGIN = sys.argv[2].split('@')[0]
     IP = sys.argv[2].split('@')[1].split(':')[0]
-    PORT = sys.argv[2].split('@')[1].split(':')[1]
+    PORT = int(sys.argv[2].split('@')[1].split(':')[1])
 except:
     sys.exit("Usage: python client.py method receiver@IP:SIPport")
 
+#Creamos el mensaje que vamos a enviar
+if METHOD not in ["INVITE", "BYE"]:
+    sys.exit("Usage: Not INVITE or BYE")
+else:
+    MESSAGE = METHOD + ' ' + 'sip:' + LOGIN + ' ' + 'SIP/2.0'
 
-# Dirección IP del servidor.
-SERVER = 'localhost'
-PORT = 6001
-
-# Contenido que vamos a enviar
-LINE = '¡Hola mundo!'
 
 # Creamos el socket, lo configuramos y lo atamos a un servidor/puerto
 my_socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 my_socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
-my_socket.connect((SERVER, PORT))
+my_socket.connect((IP, PORT))
 
-print("Enviando: " + LINE)
-my_socket.send(bytes(LINE, 'utf-8') + b'\r\n')
+print("Enviando: " + MESSAGE)
+my_socket.send(bytes(MESSAGE, 'utf-8') + b'\r\n')
 data = my_socket.recv(1024)
 
-print('Recibido -- ', data.decode('utf-8'))
+print('Recibido -- ', data.decode('utf-8') + '\r\n\r\n')
 print("Terminando socket...")
 
 # Cerramos todo

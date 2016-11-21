@@ -18,7 +18,7 @@ try:
 except:
     sys.exit("Usage: python client.py method receiver@IP:SIPport")
 
-#Creamos el mensaje que vamos a enviar
+# Creamos el mensaje que vamos a enviar
 
 MESSAGE = METHOD + ' ' + 'sip:' + LOGIN + ' ' + 'SIP/2.0'
 

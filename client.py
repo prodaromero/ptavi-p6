@@ -36,9 +36,13 @@ RECIEVE = data.decode('utf8')
 
 print('Recibido -- ', RECIEVE)
 RECIEVE = RECIEVE.split()
+print(RECIEVE)
 
+TRYING = RECIEVE[2]
+RING = RECIEVE[5]
+OK = RECIEVE[8]
 
-if RECIEVE[1] == '100' and RECIEVE[4] == '180' and RECIEVE[7] == '200':
+if TRYING == 'Trying' and RING == 'Ring' and OK == 'OK':
     MESSAGE = 'ACK' + ' ' + 'sip:' + LOGIN + ' ' + 'SIP/2.0'
     print("Enviando: " + MESSAGE)
     my_socket.send(bytes(MESSAGE, 'utf-8') + b'\r\n\r\n')

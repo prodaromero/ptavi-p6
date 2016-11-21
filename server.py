@@ -26,9 +26,9 @@ class EchoHandler(socketserver.DatagramRequestHandler):
             METHOD = MESSAGE.split(' ')[0]
 
             if METHOD == 'INVITE':
-                self.wfile.write(b"SIP/2.0 100 Trying" + b"\r\n\r\n")
-                self.wfile.write(b"SIP/2.0 180 Ring" + b"\r\n\r\n")
-                self.wfile.write(b"SIP/2.0 200 OK" + b"\r\n\r\n")
+                self.wfile.write(b"SIP/2.0 100 Trying" + b"\r\n\r\n" +
+                                 b"SIP/2.0 180 Ring" + b"\r\n\r\n" +
+                                 b"SIP/2.0 200 OK" + b"\r\n\r\n")
             elif METHOD == 'BYE':
                 self.wfile.write(b"SIP/2.0 200 OK" + b"\r\n\r\n")
             elif METHOD == 'ACK':
@@ -55,4 +55,9 @@ if __name__ == "__main__":
 
     serv = socketserver.UDPServer(('', PORT), EchoHandler)
     print("Lanzando servidor UDP de eco...")
-    serv.serve_forever()
+
+    try:
+        serv.serve_forever()
+    except KeyboardInterrupt:
+        print()
+        print("Servidor finalizado")

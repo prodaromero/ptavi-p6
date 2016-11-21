@@ -5,8 +5,19 @@ Programa cliente que abre un socket a un servidor
 """
 
 import socket
+import sys
 
 # Cliente UDP simple.
+
+# Lectura por shell
+try:
+    METHOD = sys.argv[1]
+    LOGIN = sys.argv[2].split('@')[0]
+    IP = sys.argv[2].split('@')[1].split(':')[0]
+    PORT = sys.argv[2].split('@')[1].split(':')[1]
+except:
+    sys.exit("Usage: python client.py method receiver@IP:SIPport")
+
 
 # Dirección IP del servidor.
 SERVER = 'localhost'

@@ -8,6 +8,7 @@ import socketserver
 import sys
 import os
 
+
 class EchoHandler(socketserver.DatagramRequestHandler):
     """
     Echo server class
@@ -15,7 +16,7 @@ class EchoHandler(socketserver.DatagramRequestHandler):
 
     def handle(self):
         # Escribe dirección y puerto del cliente (de tupla client_address)
-        #self.wfile.write(b"Hemos recibido tu peticion" + b'\r\n\r\n')
+        # self.wfile.write(b"Hemos recibido tu peticion" + b'\r\n\r\n')
         while 1:
             # Leyendo línea a línea lo que nos envía el cliente
             line = self.rfile.read()
@@ -32,15 +33,15 @@ class EchoHandler(socketserver.DatagramRequestHandler):
             elif METHOD == 'BYE':
                 self.wfile.write(b"SIP/2.0 200 OK" + b"\r\n\r\n")
             elif METHOD == 'ACK':
-                #cuando se nos envie la confirmacion reproduciremos
+                # cuando se nos envie la confirmacion reproduciremos
                 aEjecutar = './mp32rtp -i 127.0.0.1 -p 23032 <' + FILE
                 print("Vamos a ejecutar" + aEjecutar)
                 os.system(aEjecutar)
-            elif METHOD not in ['INVITE','BYE', 'ACK']:
+            elif METHOD not in ['INVITE', 'BYE', 'ACK']:
                 self.wfile.write(b"SIP/2.0 405 Method Not Allowed\r\n\r\n")
             else:
                 self.wfile.write(b"SIP/2.0 400 Bad Request\r\n\r\n")
-            
+
 
 if __name__ == "__main__":
 

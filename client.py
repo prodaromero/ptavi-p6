@@ -19,10 +19,8 @@ except:
     sys.exit("Usage: python client.py method receiver@IP:SIPport")
 
 #Creamos el mensaje que vamos a enviar
-if METHOD not in ["INVITE", "BYE"]:
-    sys.exit("Usage: Not INVITE or BYE")
-else:
-    MESSAGE = METHOD + ' ' + 'sip:' + LOGIN + ' ' + 'SIP/2.0'
+
+MESSAGE = METHOD + ' ' + 'sip:' + LOGIN + ' ' + 'SIP/2.0'
 
 
 # Creamos el socket, lo configuramos y lo atamos a un servidor/puerto
@@ -34,7 +32,18 @@ print("Enviando: " + MESSAGE)
 my_socket.send(bytes(MESSAGE, 'utf-8') + b'\r\n')
 data = my_socket.recv(1024)
 
-print('Recibido -- ', data.decode('utf-8'))
+RECIEVE = data.decode('utf8')
+
+print('Recibido -- ', RECIEVE)
+RECIEVE = RECIEVE.split()
+
+
+if RECIEVE[1] == '100' and RECIEVE[4] == '180' and RECIEVE[7] == '200':
+    MESSAGE = 'ACK' + ' ' + 'sip:' + LOGIN + ' ' + 'SIP/2.0'
+    print("Enviando: " + MESSAGE)
+    my_socket.send(bytes(MESSAGE, 'utf-8') + b'\r\n\r\n')
+    data = my_socket.recv(1024)
+
 print("Terminando socket...")
 
 # Cerramos todo
